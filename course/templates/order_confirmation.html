@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .header img {
+            max-width: 150px;
+            height: auto;
+        }
+        .header h1 {
+            color: #007bff;
+            margin: 10px 0 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #333;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .order-details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        .order-details ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .order-details li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .order-details li:last-child {
+            border-bottom: none;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #eee;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://pyjamahrproduction.blob.core.windows.net/backend/files/company/img/imageedit_3_5696630215_0D3D31F799.png" alt="Company Logo">
+            <h1>Enrollment Confirmation</h1>
+        </div>
+        <div class="content">
+            <p>Dear {{ user.first_name }},</p>
+            <p>Thank you for your recent order! We are thrilled to have you join our course.</p>
+            <p>Your enrollment is now confirmed. Below are the details of your order:</p>
+            <div class="order-details">
+                <ul>
+                    <li><strong>Order ID:</strong> {{ order.order_id }}</li>
+                    <li><strong>Course:</strong> {{ order.plan.course.title }}</li>
+                    <li><strong>Plan:</strong> {{ order.plan.name }}</li>
+                    <li><strong>Status:</strong> {{ order.status }}</li>
+                    <li><strong>Total Amount:</strong> Rs.{{ order.total_amount }}</li>
+                </ul>
+            </div>
+            <p>We are excited for you to start learning and achieving your goals. Our team is here to support you, so if you have any questions or need assistance, feel free to reach out to us.</p>
+            <p>Best regards,</p>
+            <p>The Team Baoiam</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Baoiam Pvt Ltd. All rights reserved.</p>
+            <p>08069640635, B Block Noida Sector 15 Uttar Pradesh</p>
+            <p><a href="https://baoiam.com">Unsubscribe</a> from our mailing list.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h1>Enrollment Successfully</h1>
+    <p>Dear {{ user.first_name }},</p>
+    <p>Thank you for your order!</p>
+    <p>Your order details:</p>
+    <ul>
+        <li>Order ID: {{ order.order_id }}</li>
+        <li>Course: {{ order.plan.course.title }}</li>
+        <li>Plan: {{ order.plan.name }}</li>
+        <li>Status: {{ order.status }}</li>
+        <li>Total Amount: Rs.{{ order.total_amount }}</li>
+    </ul>
+    <p>Stay tuned till further updates.</p>
+    <p>Best regards,</p>
+    <p>The Team Baoiam</p>
+</body>
+</html> {% endcomment %}
