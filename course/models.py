@@ -97,6 +97,7 @@ class Enrollment(models.Model):
     def save(self, *args, **kwargs):
 
         if self.payment_due is None:
+            print("enrollment payment_due save")
             self.payment_due = self.plan.price
 
         if not self.enrollment_number:
@@ -105,11 +106,11 @@ class Enrollment(models.Model):
 
     def generate_enrollment_number(self):
 
-        org_prefix = 'B1IAM'
+        org_prefix = 'B1-IAM'
         course_code = self.course.course_code
 
         sequence_number = Enrollment.objects.filter(course=self.course).count() + 1
-        return f"{org_prefix}_{course_code}_{sequence_number:03d}"    
+        return f"{org_prefix}-{course_code}-{sequence_number:03d}"    
         
     def get_plan_price(self):
         return self.plan.price    
