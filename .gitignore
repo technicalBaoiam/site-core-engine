@@ -8,5 +8,3 @@ __pycache__
 google_sheets_config.json
 venv
 
-ProcFile
-vercel.json

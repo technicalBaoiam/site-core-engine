@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    
+    'api.baoiam.com',
     'baoiam.vercel.app', 
     'baoiam.com',
     'www.baoiam.com',

@@ -54,6 +54,10 @@ urlpatterns = [
     # Enrollment
     path('enroll/', EnrollInCourseView.as_view(), name='enroll-in-course'),
 
+    # Plan
+    path('course/<int:pk>/plan/', CoursePlanListView.as_view(), name='course-plan'),
+
+
       # Order URLs
     path('orders/', OrderListCreateView.as_view(), name='order-create'),
     #   demo session order
