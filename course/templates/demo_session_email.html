@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Session Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #333;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://pyjamahrproduction.blob.core.windows.net/backend/files/company/img/imageedit_3_5696630215_0D3D31F799.png" alt="Company Logo">
+        </div>
+        <div class="content">
+            <h2>Hello {{ user.username }},</h2>
+            <p>Thank you for scheduling a demo session with us. We are excited to show you our offerings and help you get started.</p>
+            <p><strong>Demo Session Details:</strong></p>
+            <ul>
+                <li><strong>Course:</strong> {{ order.plan.course.title }}</li>
+                <li><strong>Course:</strong> {{ order.plan.name }}</li>
+                <p>Our team will get back to you shortly !!<p/>
+            </ul>
+            <p>Please make sure to join the session a few minutes early to ensure everything is set up correctly.</p>
+            <p>If you have any questions or need assistance before the demo, feel free to <a href="system@baoiam.com">contact us</a>.</p>
+            <a href="https://baoiam.vercel.app/login" class="btn">Access Your Dashboard</a>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Baoiam Pvt Ltd. All rights reserved.</p>
+            <p>08069640635, B Block Noida Sector 15 Uttar Pradesh</p>
+            <p><a href="https://baoiam.com">Unsubscribe</a> from our mailing list.</p>
+        </div>
+    </div>
+</body>
+</html>
