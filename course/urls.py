@@ -9,7 +9,7 @@ from .views import (
     CourseListCreateView, CourseDetailView,
    
     # enrollment
-    EnrollInCourseView,   
+    EnrollInCourseView,   CoursePlanListView,
     
     # rating
     RatingListCreateView, RatingDetailView,
