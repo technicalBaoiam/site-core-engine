@@ -20,7 +20,7 @@ from .models import (
 )
 from .serializers import (
     CategorySerializer, SubcategorySerializer, CourseSerializer,
-    OrderSerializer,
+    OrderSerializer, PlanSerializer,
     RatingSerializer, EnrollmentSerializer, InstructorSerializer,
     VideoSerializer, VideoPlaylistSerializer
 )
@@ -69,6 +69,16 @@ class CourseListCreateView(generics.ListCreateAPIView):
         #        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
         return queryset
+
+class CoursePlanListView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = PlanSerializer
+
+    def get_queryset(self):
+        course_id = self.kwargs['pk']
+        return Plan.objects.filter(course=course_id)
+        
+            
     
 class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]

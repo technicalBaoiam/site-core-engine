@@ -21,23 +21,24 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'subcategories', 'label', 'description', 'created_at']
 
 
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = [
-            'id', 'title', 'description', 
-            'category', 'subcategory', 'program_overview', 'brochure_file',
-            'thumbnail_image', 'curriculum'
-        ]
-
-
-
 # student
         
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plan
-        fields = ['id', 'name', 'course', 'price']        
+        fields = ['id', 'name', 'price']        
+
+class CourseSerializer(serializers.ModelSerializer):
+    plans = PlanSerializer(many=True, read_only=True)
+    class Meta:
+        model = Course
+        fields = [
+            'id', 'title', 'description', 
+            'category', 'subcategory', 'program_overview', 'brochure_file',
+            'thumbnail_image', 'curriculum', 'plans'
+        ]
+
+
    
 class EnrollmentSerializer(serializers.ModelSerializer):
     course_title = serializers.CharField(source='course.title', read_only=True)  # Directly access the 'title' attribute
