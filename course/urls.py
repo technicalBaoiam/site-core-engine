@@ -6,10 +6,10 @@ from .views import (
     CategoryViewSet, SubcategoryViewSet,
     
     # course
-    CourseListCreateView, CourseDetailView,
+    CourseListCreateView, CourseDetailView, CoursePlanListView,
    
     # enrollment
-    EnrollInCourseView,   
+    EnrollInCourseView,  
     
     # rating
     RatingListCreateView, RatingDetailView,
