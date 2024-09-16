@@ -26,10 +26,12 @@ class CategorySerializer(serializers.ModelSerializer):
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plan
-        fields = ['id', 'name', 'price']        
+        fields = ['id', 'name', 'price']    
+       
 
 class CourseSerializer(serializers.ModelSerializer):
     plans = PlanSerializer(many=True, read_only=True)
+
     class Meta:
         model = Course
         fields = [
@@ -38,18 +40,16 @@ class CourseSerializer(serializers.ModelSerializer):
             'thumbnail_image', 'curriculum', 'plans'
         ]
 
-
-   
 class EnrollmentSerializer(serializers.ModelSerializer):
-    course_title = serializers.CharField(source='course.title', read_only=True) 
-    course_image = serializers.ImageField(source='course.thumbnail_image', read_only=True) 
-    plan_type = serializers.CharField(source='plan.name', read_only=True)  # Directly access the 'title' attribute
-    plan_price = serializers.DecimalField(source='plan.price', max_digits=10, decimal_places=2, read_only=True)  # Directly access the 'title' attribute
-    # plan = PlanSerializer()
+    plan = PlanSerializer()
+    course = CourseSerializer()
+
     class Meta:
         model = Enrollment
-        fields = ['id', 'student', 'plan_type', 'plan_price', 'course_title', 'course_image', 'created_at']
-     
+        fields = [
+            'id', 'student', 'course', 'plan', 'created_at', 'updated_at', 'type', 'enrollment_number', 'payment_due'          
+        ]
+        
 # Orders and Payments
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

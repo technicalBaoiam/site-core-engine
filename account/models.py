@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.core.validators import RegexValidator
+
 # Create your models here.
 
 
@@ -74,3 +76,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+# profile
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    mobile_number = models.CharField(
+        max_length=15, 
+        validators=[RegexValidator(r'^\+?1?\d{9,15}$', 'Enter a valid phone number')]
+    )
+    instagram = models.URLField(max_length=200, blank=True, null=True)
+    github = models.URLField(max_length=200, blank=True, null=True)
+    linkedin = models.URLField(max_length=200, blank=True, null=True)
+    school_name = models.CharField(max_length=100, blank=True, null=True)
+    college_name = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return f"Profile of {self.user.get_full_name()}"
