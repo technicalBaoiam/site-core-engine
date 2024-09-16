@@ -44,7 +44,7 @@ router.register(r'subcategories', SubcategoryViewSet)
 
 urlpatterns = [
   
-    # Category Subcategory orders and orderitems URLs included
+    # Category Subcategory orders and orderitems URLs included although not necessary to include
     path('', include(router.urls)),
 
     # Course URLs
@@ -58,9 +58,9 @@ urlpatterns = [
     path('course/<int:pk>/plan/', CoursePlanListView.as_view(), name='course-plan'),
 
 
-      # Order URLs
+    # Order URLs
     path('orders/', OrderListCreateView.as_view(), name='order-create'),
-    #   demo session order
+    # Demo session order
     path('orders/demo-session/', DemoSessionOrderView.as_view(), name='demo-session-order'),
     # Verify Payment URL
     path('orders/verify_payment/', VerifyPaymentView.as_view(), name='verify-payment'),

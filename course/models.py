@@ -4,7 +4,6 @@ from django.conf import settings
 
 
 # instructor
-
 class Instructor(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -16,7 +15,6 @@ class Instructor(models.Model):
         return f"{self.first_name} {self.last_name}"
     
 # Category
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
     label = models.CharField(max_length=255)
@@ -27,7 +25,6 @@ class Category(models.Model):
         return self.name
     
 # subcategory
-
 class Subcategory(models.Model):
     name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, related_name='subcategories', on_delete=models.CASCADE)
@@ -38,8 +35,7 @@ class Subcategory(models.Model):
         return self.name
 
 
-# course    
-                      
+# course                        
 class Course(models.Model):
     title = models.CharField(max_length=200)
     course_code = models.CharField(max_length=10, unique=True, null=True, blank=True) #remove null blank
@@ -57,7 +53,6 @@ class Course(models.Model):
         return self.title
 
 # plan
-
 class Plan(models.Model):
     PLAN_CHOICES = [
         ('plus', 'Plus'),
@@ -67,11 +62,13 @@ class Plan(models.Model):
     name = models.CharField(max_length=10, choices=PLAN_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    class Meta:
+        unique_together = ('course', 'name')
+
     def __str__(self):
         return f"{self.course.title} - {self.name} Plan"
 
 # enrollment
-
 class Enrollment(models.Model):
 
     TYPE_CHOICES = [
@@ -117,7 +114,6 @@ class Enrollment(models.Model):
 
 
 # orders 
-
 class Order(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -145,7 +141,6 @@ class Order(models.Model):
 
 
 # ratings 
-
 class Rating(models.Model):
     course = models.ForeignKey(Course, related_name='ratings', on_delete=models.CASCADE)
     rating = models.PositiveIntegerField()
@@ -155,7 +150,6 @@ class Rating(models.Model):
         return f"Rating {self.rating} for {self.course.title}"
 
 # vidoes
-
 class Video(models.Model):
     playlist = models.ForeignKey('VideoPlaylist', related_name='videos', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
@@ -164,6 +158,7 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+# playlist
 class VideoPlaylist(models.Model):
     instructor = models.ForeignKey(Instructor, related_name='playlists', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
