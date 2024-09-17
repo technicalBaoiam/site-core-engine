@@ -31,7 +31,7 @@ class OrderListCreateView(generics.ListCreateAPIView):
         try:
             # Check if an order already exists for this Plan
             print('plan check')
-            if Order.objects.filter(plan=plan_id, student=request.user).exists():
+            if Order.objects.filter(plan=plan_id, student=request.user, status='paid').exists():
                 return Response({"error": "An order already exists for this Plan and Student."}, status=status.HTTP_400_BAD_REQUEST)
 
             plan = Plan.objects.get(id=plan_id)
@@ -59,7 +59,7 @@ class DemoSessionOrderView(generics.CreateAPIView):
         if not plan_id:
             return Response({"error": "plan_id is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        elif Order.objects.filter(plan=plan_id, student=request.user).exists():
+        elif Order.objects.filter(plan=plan_id, student=request.user, status='paid').exists():
                 return Response({"error": "An order already exists for this Plan and Student."}, status=status.HTTP_400_BAD_REQUEST)    
 
         try:
