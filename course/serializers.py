@@ -7,13 +7,14 @@ from .models import (
     Video, VideoPlaylist
 )
 
-# Course
-
+# subcategory
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
         fields = ['id', 'name', 'category', 'description', 'created_at']
 
+
+# category
 class CategorySerializer(serializers.ModelSerializer):
     subcategories = SubcategorySerializer(many=True, read_only=True)
     class Meta:
@@ -21,15 +22,16 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'subcategories', 'label', 'description', 'created_at']
 
 
-# student
-        
+
+#  plans    
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plan
         fields = ['id', 'name', 'price']    
        
-
+# course
 class CourseSerializer(serializers.ModelSerializer):
+
     plans = PlanSerializer(many=True, read_only=True)
 
     class Meta:
@@ -40,7 +42,10 @@ class CourseSerializer(serializers.ModelSerializer):
             'thumbnail_image', 'curriculum', 'plans'
         ]
 
+# enrollment
 class EnrollmentSerializer(serializers.ModelSerializer):
+
+    # later certificate and course completion fiels is to be added here
     plan = PlanSerializer()
     course = CourseSerializer()
 
@@ -60,11 +65,7 @@ class OrderSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['student', 'payment_id', 'order_id', 'signature']
 
-   
-
-
 # Instructor
-
 class InstructorSerializer(serializers.ModelSerializer):
     courses = CourseSerializer(many=True, read_only=True) 
 
@@ -75,6 +76,7 @@ class InstructorSerializer(serializers.ModelSerializer):
             'email', 'hire_date', 'courses'
         ]
 
+# ratings
 class RatingSerializer(serializers.ModelSerializer):
     course = serializers.StringRelatedField() 
 
@@ -82,6 +84,7 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = ['id', 'course', 'rating', 'comment']
 
+# videos
 class VideoSerializer(serializers.ModelSerializer):
     playlist = serializers.StringRelatedField()  
 
@@ -89,6 +92,7 @@ class VideoSerializer(serializers.ModelSerializer):
         model = Video
         fields = ['id', 'playlist', 'title', 'url']
 
+# playlist
 class VideoPlaylistSerializer(serializers.ModelSerializer):
     teacher = serializers.StringRelatedField()  
     videos = VideoSerializer(many=True, read_only=True) 
