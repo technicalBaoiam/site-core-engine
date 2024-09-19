@@ -189,7 +189,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # jwt settings
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
-   "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+   "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": False,
@@ -219,12 +219,17 @@ CORS_ALLOWED_ORIGINS = [
     'https://baoiam.vercel.com',
     
 ]
-CORS_ORIGIN_ALLOW_ALL = True
+
+SESSION_COOKIE_SECURE = False
 CORS_ALLOW_CREDENTIALS = True
 # this needs to be backend form which panel is being accessed
 # SESSION_COOKIE_DOMAIN = os.environ.get('BACKEND_DOMAIN')
-SESSION_COOKIE_SECURE = False
+
+# this needs to be false in order to allow a specific origion 
+CORS_ORIGIN_ALLOW_ALL = True
+# also this needs to be false
 CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOW_HEADERS = ["Authorization", "Content-Type", "Accept"]
 CSRF_TRUSTED_ORIGINS = [os.environ.get('CSRF_TRUSTED_DOMAIN')]
 
@@ -235,9 +240,13 @@ DJOSER = {
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE':True,
     'ACTIVATION_URL':'activate/{uid}/{token}',
+    
+    # set this to true if want to send activation email for now setting this field as false
     'SEND_ACTIVATION_EMAIL':True,
+
     'SEND_CONFIRMATION_EMAIL':True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION':True,
+
     'PASSWORD_RESET_CONFIRM_URL':'password-reset/{uid}/{token}',  # 'account/reset_password_confirm/{uid}/{token}',
     'SET_PASSWORD_RETYPE':True,
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND':True,
@@ -279,11 +288,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["first_name", "last_name"]
 
 # Email Backend Configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-EMAIL_HOST = 'smtp.gmail.com' 
-EMAIL_PORT = 587 
-EMAIL_USE_TLS = True   
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')       
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.in'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  
 
 # AWS bucket configuration
