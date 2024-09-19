@@ -242,7 +242,7 @@ DJOSER = {
     'ACTIVATION_URL':'activate/{uid}/{token}',
     
     # set this to true if want to send activation email for now setting this field as false
-    'SEND_ACTIVATION_EMAIL':False,
+    'SEND_ACTIVATION_EMAIL':True,
 
     'SEND_CONFIRMATION_EMAIL':True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION':True,

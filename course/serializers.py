@@ -14,15 +14,6 @@ class SubcategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'category', 'description', 'created_at']
 
 
-# category
-class CategorySerializer(serializers.ModelSerializer):
-    subcategories = SubcategorySerializer(many=True, read_only=True)
-    class Meta:
-        model = Category
-        fields = ['id', 'name', 'subcategories', 'label', 'description', 'created_at']
-
-
-
 #  plans    
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,6 +32,15 @@ class CourseSerializer(serializers.ModelSerializer):
             'category', 'subcategory', 'program_overview', 'brochure_file',
             'thumbnail_image', 'curriculum', 'plans'
         ]
+
+# category
+class CategorySerializer(serializers.ModelSerializer):
+    subcategories = SubcategorySerializer(many=True, read_only=True)
+    courses = CourseSerializer(many=True, read_only=True)
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'subcategories', 'label', 'description', 'courses', 'created_at']
+
 
 # enrollment
 class EnrollmentSerializer(serializers.ModelSerializer):
