@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 
 
@@ -38,7 +39,8 @@ class Subcategory(models.Model):
 # course                        
 class Course(models.Model):
     title = models.CharField(max_length=200)
-    course_code = models.CharField(max_length=10, unique=True, null=True, blank=True) #remove null blank
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
+    course_code = models.CharField(max_length=10, unique=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     program_overview = models.TextField(null=True, blank=True)
     category = models.ForeignKey(Category, related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
@@ -48,7 +50,16 @@ class Course(models.Model):
     brochure_file = models.FileField(upload_to='brochures/', blank=True, null=True)
     thumbnail_image = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
     curriculum = models.TextField(blank=True, null=True)
-    
+
+    # featured
+    featured = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            print('slug not provided worked')
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 

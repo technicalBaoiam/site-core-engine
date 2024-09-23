@@ -70,6 +70,12 @@ class CourseListCreateView(generics.ListCreateAPIView):
     
         return queryset
 
+# featured courses
+class FeaturedCourseList(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    queryset = Course.objects.filter(featured=True)
+    serializer_class = CourseSerializer       
+
 class CoursePlanListView(generics.ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = PlanSerializer

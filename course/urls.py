@@ -6,7 +6,7 @@ from .views import (
     CategoryViewSet, SubcategoryViewSet,
     
     # course
-    CourseListCreateView, CourseDetailView, CoursePlanListView,
+    CourseListCreateView, CourseDetailView, CoursePlanListView, FeaturedCourseList,
    
     # enrollment
     EnrollInCourseView,  
@@ -50,6 +50,8 @@ urlpatterns = [
     # Course URLs
     path('courses/', CourseListCreateView.as_view(), name='course-list-create'),
     path('courses/<int:pk>/', CourseDetailView.as_view(), name='course-detail'),
+    path('courses/featured/', FeaturedCourseList.as_view(), name='featured-courses'),
+
 
     # Enrollment
     path('enroll/', EnrollInCourseView.as_view(), name='enroll-in-course'),
