@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+
 # from .jazzmin import JAZZMIN_SETTINGS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -107,6 +108,7 @@ DATABASES = {
         # 'OPTIONS': {
         #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'",
         # },
+  
     },
 
     # 'default': {
@@ -141,12 +143,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
-USE_TZ = True
-
+USE_TZ = True 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -188,16 +189,15 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # jwt settings
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-   "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "AUTH_HEADER_TYPES": ('JWT',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": True,
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
-    )
-
+    ),
 }
 
 # CORS
@@ -242,7 +242,7 @@ DJOSER = {
     'ACTIVATION_URL':'activate/{uid}/{token}',
     
     # set this to true if want to send activation email for now setting this field as false
-    'SEND_ACTIVATION_EMAIL':True,
+    # 'SEND_ACTIVATION_EMAIL':False,
 
     'SEND_CONFIRMATION_EMAIL':True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION':True,
@@ -261,7 +261,7 @@ DJOSER = {
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     },
      'EMAIL': {
-        'activation': 'account.email.ActivationEmail',
+        # 'activation': 'account.email.ActivationEmail',
         'confirmation': 'account.email.ConfirmationEmail',
         'password_reset': 'account.email.PasswordResetEmail',
         'password_changed_confirmation': 'account.email.PasswordChangedConfirmationEmail',
@@ -294,6 +294,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  
+DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
+
 
 # AWS bucket configuration
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID') 
