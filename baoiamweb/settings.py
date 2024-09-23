@@ -107,6 +107,7 @@ DATABASES = {
         # 'OPTIONS': {
         #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'",
         # },
+  
     },
 
     # 'default': {
@@ -242,7 +243,7 @@ DJOSER = {
     'ACTIVATION_URL':'activate/{uid}/{token}',
     
     # set this to true if want to send activation email for now setting this field as false
-    'SEND_ACTIVATION_EMAIL':True,
+    # 'SEND_ACTIVATION_EMAIL':False,
 
     'SEND_CONFIRMATION_EMAIL':True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION':True,
@@ -261,7 +262,7 @@ DJOSER = {
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     },
      'EMAIL': {
-        'activation': 'account.email.ActivationEmail',
+        # 'activation': 'account.email.ActivationEmail',
         'confirmation': 'account.email.ConfirmationEmail',
         'password_reset': 'account.email.PasswordResetEmail',
         'password_changed_confirmation': 'account.email.PasswordChangedConfirmationEmail',
@@ -294,6 +295,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  
+DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
+
 
 # AWS bucket configuration
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID') 

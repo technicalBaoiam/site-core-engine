@@ -130,8 +130,8 @@ class Order(models.Model):
     order_id = models.CharField(max_length=255, blank=True, null=True)
     signature = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta:
-        unique_together = ('student', 'plan')  
+    # class Meta:
+    #     unique_together = ('student', 'plan')  
 
 
     def __str__(self):
