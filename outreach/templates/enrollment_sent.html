@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 150px; /* Adjust based on your logo size */
+        }
+        .content {
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            color: #fff;
+            background-color: #007BFF; /* Bootstrap primary color */
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://pyjamahrproduction.blob.core.windows.net/backend/files/company/img/imageedit_3_5696630215_0D3D31F799.png" alt="Baoiam">
+            <h2>Enrollment Confirmation</h2>
+        </div>
+        <div class="content">
+            <p>Dear {{ student_name }},</p>
+            <p>Thank you for enrolling in our course <strong>{{ course }}</strong>!</p>
+            <p>Here are your enrollment details:</p>
+            <ul>
+                <li><strong>Course:</strong> {{ course }}</li>
+                <li><strong>Email:</strong> {{ email }}</li>
+                <li><strong>Phone:</strong> {{ phone }}</li>
+                <li><strong>Enrollment Type:</strong> {{ enrollment_type }}</li>
+                <li><strong>Enrollment Time:</strong> {{ enrollment_time }}</li>
+            </ul>
+            <p>If you have any questions, feel free to reach out to us!</p>
+            <p>Best Regards,<br>Your Company Team</p>
+            <a href="https://baoiam.com" class="button">View Course</a>
+        </div>
+        <div class="footer">
+            <p>&copy; {{ current_year }} Baoiam Pvt Ltd. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
