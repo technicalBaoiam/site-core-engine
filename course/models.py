@@ -60,6 +60,33 @@ class Course(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    # def delete(self, *args, **kwargs):
+    #     # Delete the brochure file from S3 if it exists
+    #     if self.brochure_file:
+    #         print('deteting thumbnail')
+    #         self.brochure_file.delete(save=False)
+    #     # Delete the thumbnail image from S3 if it exists
+    #     if self.thumbnail_image:
+    #         print('deteting thumbnail')
+    #         self.thumbnail_image.delete(save=False)     
+        
+    #     super().delete(*args, **kwargs)
+
+    def clear_files(self):
+        """Clear files from S3 but keep the object."""
+        print(self)
+        if self.brochure_file:
+            print('deteting brochure clear')
+            self.brochure_file.delete(save=False)
+            self.brochure_file = None  # Set to None in the model
+        
+        if self.thumbnail_image:
+            print('deteting thumbnail clear')
+            self.thumbnail_image.delete(save=False)
+            self.thumbnail_image = None  # Set to None in the model
+        
+        self.save()  # Save the object without files
+
     def __str__(self):
         return self.title
 

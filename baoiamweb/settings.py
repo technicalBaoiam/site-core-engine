@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'djoser',
     'account',
     'course',
+    'outreach',
     "social_django",
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -94,9 +95,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'baoiamweb.wsgi.application'
 
 
+# Databse Router
+DATABASE_ROUTERS = ['utils.db_router.MyAppRouter']
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -105,18 +108,29 @@ DATABASES = {
         'PASSWORD':  os.environ.get('DB_PASSWORD'),
         'HOST':  os.environ.get('DB_HOST'),
         'PORT':  os.environ.get('DB_PORT'),
+        'ATOMIC_REQUESTS': True,
+
         # 'OPTIONS': {
         #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'",
         # },
-  
+    },
+
+     'outreach_db': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('OUTREACH_DB_NAME'),
+        'USER': os.environ.get('OUTREACH_DB_USER'),
+        'PASSWORD': os.environ.get('OUTREACH_DB_PASSWORD'),
+        'HOST': os.environ.get('OUTREACH_DB_HOST'),
+        'PORT': os.environ.get('OUTREACH_DB_PORT'),
+        'ATOMIC_REQUESTS': True,
     },
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',  
-    # }
-   
+    # }  
 }
+
 
 
 # Password validation
@@ -242,9 +256,8 @@ DJOSER = {
     'ACTIVATION_URL':'activate/{uid}/{token}',
     
     # set this to true if want to send activation email for now setting this field as false
-    # 'SEND_ACTIVATION_EMAIL':False,
-
-    'SEND_CONFIRMATION_EMAIL':True,
+    # 'SEND_ACTIVATION_EMAIL':True,
+    'SEND_CONFIRMATION_EMAIL':False,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION':True,
 
     'PASSWORD_RESET_CONFIRM_URL':'password-reset/{uid}/{token}',  # 'account/reset_password_confirm/{uid}/{token}',
@@ -298,10 +311,15 @@ DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
 
 
 # AWS bucket configuration
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID') 
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')  
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME') 
-AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')  
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID') 
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')  
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME') 
+# AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME') 
+
+AWS_ACCESS_KEY_ID="AKIA5MSUBU7RSKCAWJXG"
+AWS_SECRET_ACCESS_KEY="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"
+AWS_STORAGE_BUCKET_NAME="site-innovations"
+AWS_S3_REGION_NAME="ap-south-1"
 
 # S3 configurations for media files
 AWS_S3_FILE_OVERWRITE = False  # Avoid overwriting files with the same name
