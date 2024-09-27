@@ -30,8 +30,6 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1']
 
 ALLOWED_HOSTS = [
     'api.baoiam.com',
-    'baoiam.com',
-    'www.baoiam.com',
     'localhost',
     '127.0.0.1',
 ]
