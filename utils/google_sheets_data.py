@@ -6,7 +6,9 @@ from google.oauth2.service_account import Credentials
 
 def convert_datetime(value):
 
-    return value.isoformat() if isinstance(value, datetime) else value
+    if isinstance(value, datetime):
+        return value.strftime('%B %d, %Y at %I:%M %p')
+    return value
 
 # Set up Google Sheets credentials
 def get_gspread_client():
@@ -33,7 +35,7 @@ def save_enrollment_data(enrollment):
         enrollment.student_email,
         enrollment.course,
         enrollment.student_phone,
-        enrollment.enrollment_type,
+        # enrollment.enrollment_type,
         convert_datetime(enrollment.enrollment_time),
       
     ])
@@ -45,7 +47,7 @@ def save_enrollment_data(enrollment):
         enrollment.student_email,
         enrollment.course,
         enrollment.student_phone,
-        enrollment.enrollment_type,
+        # enrollment.enrollment_type,
         convert_datetime(enrollment.enrollment_time),
     ])
 

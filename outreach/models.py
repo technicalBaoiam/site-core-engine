@@ -30,6 +30,7 @@ class Contact(models.Model):
 
 class StudentEnrollment(models.Model):
     STUDENT_TYPE_CHOICES = [
+        ('unspecified', 'Unspecified'),
         ('demo', 'Demo'),
         ('full', 'Full Course'),
     ]
@@ -38,10 +39,10 @@ class StudentEnrollment(models.Model):
     student_email = models.EmailField(max_length=254)
     student_phone = models.CharField(max_length=15)
     course = models.CharField(max_length=100)
-    enrollment_type = models.CharField(max_length=4, choices=STUDENT_TYPE_CHOICES)
+    enrollment_type = models.CharField(max_length=20, choices=STUDENT_TYPE_CHOICES, default='unspecified')
     enrollment_time = models.DateTimeField(auto_now_add=True)  
 
 
     def __str__(self):
-        return f"{self.student_full_name} - {self.course.title} ({self.enrollment_type})"
+        return f"{self.student_full_name} ({self.enrollment_type})"
 

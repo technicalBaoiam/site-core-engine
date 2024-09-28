@@ -86,14 +86,34 @@ class CoursePlanListView(generics.ListAPIView):
         
             
     
-class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [AllowAny]
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+# class CourseDetailView(generics.RetrieveAPIView):
+#     permission_classes = [AllowAny]
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
     
     # filter_backends = [SearchFilter]
     # search_fields = ['subcategory']
 
+class CourseDetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAdminOrReadOnly]
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+    def get(self, request, *args, **kwargs):
+        course = self.get_object()  # Fetch the course details
+        related_courses = self.get_related_courses(course)  # Fetch related courses
+
+        # Prepare the response data
+        response_data = {
+            'course': CourseSerializer(course).data,
+            'related_courses': CourseSerializer(related_courses, many=True).data,
+        }
+
+        return Response(response_data)
+
+    def get_related_courses(self, course):
+        # Fetch related courses based on the current course's category
+        return Course.objects.filter(subcategory_id=course.subcategory_id).exclude(id=course.id)
 # enrollment
 
 class EnrollInCourseView(generics.ListAPIView):

@@ -32,6 +32,7 @@ class PlanSerializer(serializers.ModelSerializer):
 #             'category', 'subcategory', 'program_overview', 'brochure_file',
 #             'thumbnail_image', 'curriculum', 'plans', 'featured'
 #         ]
+
 class CourseSerializer(serializers.ModelSerializer):
 
     plans = PlanSerializer(many=True, read_only=True)
