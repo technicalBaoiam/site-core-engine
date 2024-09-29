@@ -56,16 +56,16 @@ def save_contact_info(contact):
     client = get_gspread_client()
     print('g sheets in action')
     # Open the sales team contact sheet
-    sales_contact_sheet = client.open("Sales Team Contact Data").sheet1
+    sales_contact_sheet = client.open("Sales Team GCEP Data").sheet1
     sales_contact_sheet.append_row([
         contact.first_name,
         contact.last_name,
         contact.institute,
-        contact.employer,
+        # contact.employer,
+        # contact.job_title,
         contact.designation,
         contact.email,
         contact.phone,
-        contact.job_title,
         contact.contact_type,
         contact.message,
     ])

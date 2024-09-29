@@ -16,11 +16,9 @@ class Contact(models.Model):
     first_name = models.CharField(max_length=100, verbose_name="First Name")
     last_name = models.CharField(max_length=100, verbose_name="Last Name")
     institute = models.CharField(max_length=200, verbose_name="Institute")
-    employer = models.CharField(max_length=200, blank=True, verbose_name="Who do you work for?")
     designation = models.CharField(max_length=100, blank=True, verbose_name="Designation (if agency)")
     email = models.EmailField(verbose_name="Email")
     phone = models.CharField(max_length=15, blank=True, verbose_name="Phone")
-    job_title = models.CharField(max_length=100, blank=True, verbose_name="Job Title")
     contact_type = models.CharField(max_length=50, choices=CONTACT_TYPE_CHOICES, verbose_name="Type")
     message = models.TextField(blank=True, verbose_name="Message")
 
