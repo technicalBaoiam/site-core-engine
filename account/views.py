@@ -42,6 +42,7 @@ class EmailVerificationView(APIView):
         try:
             send_mail(
                 'Email Verification',
+                '',
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
                 fail_silently=False,
