@@ -11,7 +11,7 @@ from .models import (
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
-        fields = ['id', 'name', 'category', 'description', 'created_at']
+        fields = ['id', 'name', 'category']
 
 
 #  plans    
@@ -34,7 +34,7 @@ class PlanSerializer(serializers.ModelSerializer):
 #         ]
 
 class CourseSerializer(serializers.ModelSerializer):
-
+    subcategory = SubcategorySerializer(read_only=True)
     plans = PlanSerializer(many=True, read_only=True)
 
     class Meta:
