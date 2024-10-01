@@ -164,7 +164,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [ 
+    os.path.join(BASE_DIR, 'utils'),  # Include the utils directory to serve public key
+]
 # for production
 STATIC_ROOT = BASE_DIR / "staticfiles" 
 
@@ -330,4 +332,3 @@ MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
 # Razorpay
 RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET")
-
