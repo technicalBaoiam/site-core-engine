@@ -1,3 +1,4 @@
+# Create your views here.
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics, permissions, status
 from .models import Profile, User
@@ -5,7 +6,6 @@ from .serializers import ProfileSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# Create your views here.
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -16,7 +16,11 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+from utils.decrypt_password import decrypt_password
+from .serializers import UserCreateSerializer
 
+# sned email verification
 class EmailVerificationView(APIView):
     permission_classes = [IsAuthenticated]
     # permission_classes = [AllowAny]
@@ -59,7 +63,7 @@ class EmailVerificationView(APIView):
         token = PasswordResetTokenGenerator().make_token(user)
         return f"{settings.DOMAIN}/verify-email/{uid}/{token}/"
 
-
+# verify email
 class VerifyEmailView(APIView):
     permission_classes = [AllowAny]
 
@@ -82,7 +86,7 @@ class VerifyEmailView(APIView):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-
+# profile
 class ProfileUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -90,3 +94,34 @@ class ProfileUpdateView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         print('printing get object')
         return self.request.user.profile
+
+# (send jwt token) custom login view to decrypt passwrd before hasing it 
+class CustomTokenCreateView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+    def post(self, request, *args, **kwargs):
+        try:
+            # Decrypt the password
+            decrypted_password = decrypt_password(request.data['password'])
+            # Replace the encrypted password with the decrypted one
+            request.data['password'] = decrypted_password
+            print('password decryption complete')
+        except ValueError:
+            return Response({"detail": "Invalid password encryption."}, status=status.HTTP_400_BAD_REQUEST)
+        print('super method begin')
+        return super().post(request, *args, **kwargs)
+
+# custom signup to decrypt password before hasing it
+class CustomUserCreateView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        print("Received request data:", request.data) 
+        serializer = UserCreateSerializer(data=request.data)
+        print('here')
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
+        
+        print("Serializer errors:", serializer.errors) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
