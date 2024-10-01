@@ -48,7 +48,7 @@ class EnrollmentCreateView(generics.CreateAPIView):
             'course': enrollment.course,
             'email': enrollment.student_email,
             'phone': enrollment.student_phone,
-            'enrollment_type': enrollment.enrollment_type,
+            # 'enrollment_type': enrollment.enrollment_type,
             'enrollment_time': enrollment.enrollment_time,
             'current_year': datetime.now().year, 
 
