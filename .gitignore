@@ -7,4 +7,5 @@ __pycache__
 __pycache__
 google_sheets_config.json
 venv
-
+private_key.pem
+public_key.pem
