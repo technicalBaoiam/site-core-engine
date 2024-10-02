@@ -165,7 +165,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ 
-    os.path.join(BASE_DIR, 'utils'),  # Include the utils directory to serve public key
+    os.path.join(BASE_DIR, 'static'),  # Include the static directory to serve public key
 ]
 # for production
 STATIC_ROOT = BASE_DIR / "staticfiles" 
