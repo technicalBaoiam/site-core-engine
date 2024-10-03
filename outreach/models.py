@@ -21,6 +21,8 @@ class Contact(models.Model):
     phone = models.CharField(max_length=15, blank=True, verbose_name="Phone")
     contact_type = models.CharField(max_length=50, choices=CONTACT_TYPE_CHOICES, verbose_name="Type")
     message = models.TextField(blank=True, verbose_name="Message")
+    timestamp = models.DateTimeField(auto_now_add=True)  
+
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.institute}"
