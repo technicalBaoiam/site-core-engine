@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'outreach',
     "social_django",
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
+    # 'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'ckeditor',
 ]
@@ -172,7 +172,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [ 
+    os.path.join(BASE_DIR, 'static'),  # Include the static directory to serve public key
+]
 # for production
 STATIC_ROOT = BASE_DIR / "staticfiles" 
 
@@ -251,6 +253,7 @@ CORS_ALLOWED_ORIGINS = [
 
 SESSION_COOKIE_SECURE = False
 CORS_ALLOW_CREDENTIALS = True
+
 # this needs to be backend form which panel is being accessed
 # SESSION_COOKIE_DOMAIN = os.environ.get('BACKEND_DOMAIN')
 
@@ -267,7 +270,7 @@ CSRF_TRUSTED_ORIGINS = [os.environ.get('CSRF_TRUSTED_DOMAIN')]
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
-    'USER_CREATE_PASSWORD_RETYPE':True,
+    'USER_CREATE_PASSWORD_RETYPE':False,
     'ACTIVATION_URL':'activate/{uid}/{token}',
     
     # set this to true if want to send activation email for now setting this field as false
@@ -324,17 +327,11 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  
 DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
 
-
 # AWS bucket configuration
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID') 
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')  
-# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME') 
-# AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME') 
-
-AWS_ACCESS_KEY_ID="AKIA5MSUBU7RSKCAWJXG"
-AWS_SECRET_ACCESS_KEY="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"
-AWS_STORAGE_BUCKET_NAME="site-innovations"
-AWS_S3_REGION_NAME="ap-south-1"
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID') 
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')  
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME') 
+AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME') 
 
 # S3 configurations for media files
 AWS_S3_FILE_OVERWRITE = False  # Avoid overwriting files with the same name

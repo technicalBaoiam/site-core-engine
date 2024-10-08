@@ -29,26 +29,28 @@ def save_enrollment_data(enrollment):
     client = get_gspread_client()
     print('take data in sheet')
     # Open the academic team enrollment sheet
-    academic_sheet = client.open("Academic Team Enrollment Data").sheet1
+    # academic_sheet = client.open("Academic Team Enrollment Data").sheet1
+    academic_sheet = client.open("Enrollment Form (Sales)").sheet1
     academic_sheet.append_row([
+        convert_datetime(enrollment.enrollment_time),
         enrollment.student_full_name,
         enrollment.student_email,
-        enrollment.course,
         enrollment.student_phone,
+        enrollment.course,
         # enrollment.enrollment_type,
-        convert_datetime(enrollment.enrollment_time),
       
     ])
 
     # Open the sales team enrollment sheet
-    sales_enrollment_sheet = client.open("Sales Team Enrollment Data").sheet1
+    # sales_enrollment_sheet = client.open("Sales Team Enrollment Data").sheet1
+    sales_enrollment_sheet = client.open("Enrollment Form (academic) (Responses)").sheet1
     sales_enrollment_sheet.append_row([
+        convert_datetime(enrollment.enrollment_time),
         enrollment.student_full_name,
         enrollment.student_email,
-        enrollment.course,
         enrollment.student_phone,
+        enrollment.course,
         # enrollment.enrollment_type,
-        convert_datetime(enrollment.enrollment_time),
     ])
 
 # Function to save contact info
@@ -56,16 +58,16 @@ def save_contact_info(contact):
     client = get_gspread_client()
     print('g sheets in action')
     # Open the sales team contact sheet
-    sales_contact_sheet = client.open("Sales Team GCEP Data").sheet1
+    # sales_contact_sheet = client.open("Sales Team GCEP Data").sheet1
+    sales_contact_sheet = client.open("GCEP Form (Responses)").sheet1
     sales_contact_sheet.append_row([
-        contact.first_name,
-        contact.last_name,
-        contact.institute,
-        # contact.employer,
-        # contact.job_title,
-        contact.designation,
-        contact.email,
+        convert_datetime(contact.timestamp),
+        f"{contact.first_name} {contact.last_name}",
         contact.phone,
-        contact.contact_type,
-        contact.message,
+        contact.email,
+        
+        # contact.institute,
+        # contact.designation,
+        # contact.contact_type,
+        # contact.message,
     ])
