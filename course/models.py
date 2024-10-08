@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 
+from ckeditor.fields import RichTextField
 
 
 # instructor
@@ -49,7 +50,8 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) 
     brochure_file = models.FileField(upload_to='brochures/', blank=True, null=True)
     thumbnail_image = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
-    curriculum = models.TextField(blank=True, null=True)
+    # curriculum = models.TextField(blank=True, null=True)
+    curriculum =RichTextField()
 
     # featured
     featured = models.BooleanField(default=False)

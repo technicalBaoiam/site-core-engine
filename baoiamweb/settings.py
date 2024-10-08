@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -97,37 +98,44 @@ DATABASE_ROUTERS = ['utils.db_router.MyAppRouter']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.environ.get('unit'),
+#         'USER': os.environ.get('root'),
+#         'PASSWORD': os.environ.get(''),
+#         'HOST': os.environ.get('DB_HOST', 'localhost'),
+#         'PORT': os.environ.get('DB_PORT', '3306'),  # Default MySQL port is 3306
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#         },
+#     },
+#     'outreach_db': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.environ.get('OUTREACH_DB_NAME'),
+#         'USER': os.environ.get('OUTREACH_DB_USER'),
+#         'PASSWORD': os.environ.get('OUTREACH_DB_PASSWORD'),
+#         'HOST': os.environ.get('OUTREACH_DB_HOST', 'localhost'),
+#         'PORT': os.environ.get('OUTREACH_DB_PORT', '3306'),  # Default MySQL port is 3306
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#         },
+#     },
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME':  os.environ.get('DB_NAME'),
-        'USER':  os.environ.get('DB_USER'),
-        'PASSWORD':  os.environ.get('DB_PASSWORD'),
-        'HOST':  os.environ.get('DB_HOST'),
-        'PORT':  os.environ.get('DB_PORT'),
-        'ATOMIC_REQUESTS': True,
-
-        # 'OPTIONS': {
-        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'",
-        # },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
+}
 
-     'outreach_db': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('OUTREACH_DB_NAME'),
-        'USER': os.environ.get('OUTREACH_DB_USER'),
-        'PASSWORD': os.environ.get('OUTREACH_DB_PASSWORD'),
-        'HOST': os.environ.get('OUTREACH_DB_HOST'),
-        'PORT': os.environ.get('OUTREACH_DB_PORT'),
-        'ATOMIC_REQUESTS': True,
-    },
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',  
     # }  
-}
-
 
 
 # Password validation
@@ -210,6 +218,16 @@ SIMPLE_JWT = {
         'rest_framework_simplejwt.tokens.AccessToken',
     ),
 }
+
+#CKEDITOR
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
+
 
 # CORS
 CORS_ALLOW_HEADERS = [

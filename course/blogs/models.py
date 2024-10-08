@@ -1,14 +1,20 @@
+# models.py
+
 from django.db import models
 from django.conf import settings
 from course.models import Category, Subcategory
 User = settings.AUTH_USER_MODEL
+
+
+from ckeditor.fields import RichTextField
 
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     post_image = models.ImageField(upload_to='blog_posts/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="blogs", default=1)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name="blogs", default=1)
-    description = models.TextField()
+    # description = models.TextField()
+    description = RichTextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blogs")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

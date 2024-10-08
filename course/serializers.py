@@ -39,7 +39,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        exclude = ['featured', 'course_code']
+        fields = '__all__'  # or make sure 'title' is explicitly included
 
 # category
 class CategorySerializer(serializers.ModelSerializer):
