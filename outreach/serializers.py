@@ -40,9 +40,11 @@ class ContactUsSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=10, required=True) 
     enquiry_type = serializers.ChoiceField(
         choices=[
-            ('general', 'General'),
-            ('feedback', 'Feedback'),
-            ('support', 'Support')
+            ('general enquiry', 'General Enquiry'),
+            ('technical support', 'Technical Support'),
+            ('partnership opportunities', 'Partnership Opportunities'),
+            ('course related query', 'Course-Related Query'),
+            ('others', 'Others')
         ],
         required=True  
     )
