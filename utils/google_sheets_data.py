@@ -53,7 +53,7 @@ def save_enrollment_data(enrollment):
         # enrollment.enrollment_type,
     ])
 
-# Function to save contact info
+# Function to save gcep contact info
 def save_contact_info(contact):
     client = get_gspread_client()
     print('g sheets in action')
@@ -70,4 +70,24 @@ def save_contact_info(contact):
         # contact.designation,
         # contact.contact_type,
         # contact.message,
+    ])
+
+# Function to save contact info
+def save_contact_us_info(data):
+    client = get_gspread_client()
+    print('g sheets in action')
+    # Open the sales team contact sheet
+    contact_us_sheet = client.open("Contact Us Form (Responses)").sheet1
+
+    source = "Contact Us" if 'message' in data else "Newsletter"
+
+    contact_us_sheet.append_row([
+        convert_datetime(data.get('timestamp')), 
+        data['email'],                      
+        data.get('full_name', 'N/A'),       
+        data.get('phone', 'N/A'),             
+        data.get('enquiry_type', 'N/A'),    
+        data.get('message', 'N/A'),             
+        data.get('newsletter', 'N/A'),      
+        source,                        
     ])
