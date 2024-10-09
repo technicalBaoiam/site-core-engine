@@ -13,7 +13,6 @@ class Blog(models.Model):
     post_image = models.ImageField(upload_to='blog_posts/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="blogs", default=1)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name="blogs", default=1)
-    # description = models.TextField()
     description = RichTextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blogs")
     created_at = models.DateTimeField(auto_now_add=True)
