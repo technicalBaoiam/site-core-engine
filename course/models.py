@@ -39,7 +39,7 @@ class Subcategory(models.Model):
 # course                        
 class Course(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True, blank=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True) # need to reduce length of sluf_field
     course_code = models.CharField(max_length=10, unique=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     program_overview = models.TextField(null=True, blank=True)
@@ -58,6 +58,7 @@ class Course(models.Model):
         if not self.slug:
             print('slug not provided worked')
             self.slug = slugify(self.title)
+            # self.slug = self.slug[:20] # alternative of reducing slug length 
         super().save(*args, **kwargs)
 
     # def delete(self, *args, **kwargs):
@@ -113,9 +114,16 @@ class Enrollment(models.Model):
         ('demo', 'Demo'),
         ('full', 'Full Course'),
     ]
+    
+    COMPLETION_CHOICES = [
+        ('pending', 'Pending'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+    ]
 
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='full')
     enrollment_number = models.CharField(max_length=20, unique=True, blank=True)
+    completion_status = models.CharField(max_length=20, choices=COMPLETION_CHOICES, default='pending')
     student = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='enrollments', on_delete=models.CASCADE)
     course = models.ForeignKey('Course', related_name='enrollments', on_delete=models.CASCADE) 
     plan = models.ForeignKey('Plan', related_name='enrollments', on_delete=models.CASCADE, default=1)
@@ -191,7 +199,8 @@ class Rating(models.Model):
 class Video(models.Model):
     playlist = models.ForeignKey('VideoPlaylist', related_name='videos', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    url = models.URLField() 
+    video_file = models.FileField(upload_to='videos/', blank=True, null=True)
+    description = models.TextField(blank=True, null=True) 
 
     def __str__(self):
         return self.title
@@ -199,9 +208,44 @@ class Video(models.Model):
 # playlist
 class VideoPlaylist(models.Model):
     instructor = models.ForeignKey(Instructor, related_name='playlists', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='playlists', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
     def __str__(self):
         return self.title
 
+# dynamic slider
+class SliderItem(models.Model):
+    title = models.CharField(max_length=100)
+    caption = models.TextField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['order']
+        
+    def __str__(self):
+        return self.title
+    
+class Slider(models.Model):
+    image = models.ImageField(upload_to='slider_images/')
+    url = models.URLField(blank=True, null=True)
+    slider_item = models.ForeignKey(SliderItem, related_name='sliders', on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.slider_item.title} - Image {self.id}"
+    
+# wishlist    
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='wishlists', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='wishlists', on_delete=models.CASCADE)
+
+class Certificate(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='certificates', on_delete=models.CASCADE) 
+    title = models.CharField(max_length=255)    # can be improve with adding relation with course 
+    description = models.TextField()
+    certificate_file = models.FileField(upload_to='certificates/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def _str_(self):
+        return self.title
