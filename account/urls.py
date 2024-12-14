@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import EmailVerificationView, VerifyEmailView, ProfileUpdateView, CustomTokenCreateView, CustomUserCreateView
+from .views import EmailVerificationView, VerifyEmailView, ProfileUpdateView, CustomTokenCreateView, CustomUserCreateView, AppProfileListView, ReferAndEarnView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 urlpatterns = [
@@ -18,6 +18,10 @@ urlpatterns = [
     
     # profile
     path('profile/', ProfileUpdateView.as_view(), name='profile-update'),
-
+    # app-profile
+    path('app-profile/', AppProfileListView.as_view(), name='profile-list'),
+    
+    #refer-earn
+    path('refer-and-earn/', ReferAndEarnView.as_view(), name='refer-earn'),
     
 ]

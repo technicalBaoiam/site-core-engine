@@ -1,8 +1,9 @@
 # Create your views here.
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics, permissions, status
-from .models import Profile, User
-from .serializers import ProfileSerializer
+from .models import Profile, User, Referral
+from .serializers import ProfileSerializer, AppProfileSerializer
+from utils.videos_and_sharable_link import generate_referral_link
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -115,13 +116,70 @@ class CustomUserCreateView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        print("Received request data:", request.data) 
-        serializer = UserCreateSerializer(data=request.data)
-        print('here')
+        data = request.data.copy()
+        referral_code = data.pop('referral_code', None)
+        
+        serializer = UserCreateSerializer(data=data)
+        # print('here')
         if serializer.is_valid():
             user = serializer.save()
+            
+            # create profile after user registration
+            profile = Profile.objects.get(user=user)
+            profile.save()
+            
+            if referral_code:
+                try:
+                    referrer_profile = Profile.objects.get(referral_code=referral_code)
+                    profile.referred_by = referrer_profile.user
+                    profile.save()
+                    
+                    Referral.objects.create(referrer=referrer_profile.user, referred_user=user)
+                    
+                    referrer_profile.reward_points += 10
+                    referrer_profile.save()
+                except Profile.DoesNotExist:
+                    return Response({"error": "Invalid referral code"}, status=status.HTTP_400_BAD_REQUEST)
             return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
         
         print("Serializer errors:", serializer.errors) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# profiles with limited field for android application
+class AppProfileListView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Profile.objects.all()
+    serializer_class = AppProfileSerializer
+    
+    def get_object(self):
+        return self.request.user.profile
+    
+class ReferAndEarnView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        
+        referral_code = user.profile.referral_code
+        referral_link = generate_referral_link(referral_code)
+        referrals = Referral.objects.filter(referrer=user)
+        
+        referral_status = [
+            {
+                "referred_user": referral.referred_user.first_name,
+                "created_at": referral.created_at,
+                "enrolled": referral.enrolled,
+            }
+            for referral in referrals
+        ]
+        
+        reward_points = user.profile.reward_points  
+        
+        data = {
+            "referral_code": referral_code, 
+            "referral_link": referral_link, 
+            "referral_status": referral_status, 
+            "reward_points": reward_points, 
+        }
+        
+        return Response(data, status=status.HTTP_200_OK)
