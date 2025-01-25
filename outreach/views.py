@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from .models import Contact, StudentEnrollment
+from course.models import Wishlist
 from .serializers import ContactSerializer, EnrollmentSerializer, ContactUsSerializer, NewsletterSerializer
 from utils.send_email import send_enrollment_email 
 from utils.google_sheets_data import save_enrollment_data, save_contact_info, save_contact_us_info
@@ -26,6 +27,11 @@ class EnrollmentCreateView(generics.CreateAPIView):
     serializer_class = EnrollmentSerializer
 
     def create(self, request, *args, **kwargs):
+        user = request.user
+        course = request.data.get('course')
+        
+        Wishlist.objects.filter(user=user, course=course).delete()  # remove course from wishlist
+        
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         

@@ -6,7 +6,7 @@ from .views import (
     CategoryViewSet, SubcategoryViewSet,
     
     # course
-    CourseListCreateView, CourseDetailView, CoursePlanListView, FeaturedCourseList,
+    CourseListCreateView, CourseDetailView, CoursePlanListView, FeaturedCourseList, ShareLinkView,
    
     # enrollment
     EnrollInCourseView,  
@@ -19,9 +19,14 @@ from .views import (
 
     # videos 
     VideoListCreateView, VideoDetailView,
-    VideoPlaylistListCreateView, VideoPlaylistDetailView
+    VideoPlaylistListCreateView, VideoPlaylistDetailView, VideoDownloadView,
+    
+    SliderItemDetailView, SliderItemView,
+    
+    WishlistAPIView, WishlistDeleteView,
+    
+    CertificateListView, CertificateDownloadView, CertificateDetailView
 )
-
 
 from course.blogs.views import (
 
@@ -49,8 +54,9 @@ urlpatterns = [
 
     # Course URLs
     path('courses/', CourseListCreateView.as_view(), name='course-list-create'),
-    path('courses/<int:pk>/', CourseDetailView.as_view(), name='course-detail'),
+    path('courses/<slug:slug>/', CourseDetailView.as_view(), name='course-detail'),
     path('courses/featured/', FeaturedCourseList.as_view(), name='featured-courses'),
+    path('courses/share/<slug:slug>/', ShareLinkView.as_view(), name='share-course-link'),
 
 
     # Enrollment
@@ -74,9 +80,6 @@ urlpatterns = [
     path('blogs/<int:blog_post_id>/comment/', CommentCreateView.as_view(), name="comment-list-create"),
     path('blogs/<int:blog_post_id>/comment/<int:pk>/', CommentDetailView.as_view(), name="comment-detail"),
 
-   
-# to be completed in future ( ratings/instructors/videos )
-
     # Rating URLs
     path('ratings/', RatingListCreateView.as_view(), name='rating-list-create'),
     path('ratings/<int:pk>/', RatingDetailView.as_view(), name='rating-detail'),
@@ -88,8 +91,22 @@ urlpatterns = [
     # Video URLs
     path('videos/', VideoListCreateView.as_view(), name='video-list-create'),
     path('videos/<int:pk>/', VideoDetailView.as_view(), name='video-detail'),
+    path('videos/<int:pk>/download/', VideoDownloadView.as_view(), name='video-download'),
 
     # Video Playlist URLs
     path('playlists/', VideoPlaylistListCreateView.as_view(), name='playlist-list-create'),
     path('playlists/<int:pk>/', VideoPlaylistDetailView.as_view(), name='playlist-detail'),
+    
+    # slider
+    path('slider/', SliderItemView.as_view(), name='slider-list-create'),
+    path('slider/<int:pk>/', SliderItemDetailView.as_view(), name='slider-detail'),
+    
+    # wishlist URLs
+    path('wishlist/', WishlistAPIView.as_view(), name='wishlist-list-create'),
+    path('wishlist/<int:pk>/', WishlistDeleteView.as_view(), name='wishlist-delete'),
+    
+    # certificate urls
+    path('certificate/', CertificateListView.as_view(), name='certificate-list'),
+    path('certificate/<int:pk>/', CertificateDetailView.as_view(), name='get_certificate'),
+    path('certificate/download/<int:pk>/', CertificateDownloadView.as_view(), name='download_certificate'),
 ]

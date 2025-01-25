@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.core.validators import RegexValidator
+import random, string
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -92,9 +93,28 @@ class Profile(models.Model):
     linkedin = models.URLField(max_length=200, blank=True, null=True)
     school_name = models.CharField(max_length=100, blank=True, null=True)
     college_name = models.CharField(max_length=100, blank=True, null=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    referral_code = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    referred_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='referrals', blank=True, null=True)
+    reward_points = models.IntegerField(default=0)
+    
+    def save(self, *args, **kwargs):
+        if not self.referral_code:
+            self.referral_code = self.generate_referral_code()
+        super().save(*args, **kwargs)
+    
+    def generate_referral_code(self):
+        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
     def __str__(self):
         return f"Profile of {self.user.get_full_name()}"
+    
+# track record of referreal_code usage
+class Referral(models.Model):
+    referrer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='referred_users')
+    referred_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='referral')
+    enrolled = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-
-
+    def __str__(self):
+        return f"'{self.referred_user.first_name}' referred by '{self.referrer.first_name}'"
